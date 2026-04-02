@@ -1,11 +1,13 @@
 # Preproposal
 
 ## What idea(s) do you have for your final project?
-I’m going to make a game called "Making fortune"(tentative name)
-This game is a simulation investing game.
-Users can get money depending on how much they complete their tasks in real life.
-They can choose where they invest.
-As a fun feature, economic events like inflation randomly happen.
+I’m going to make an investment simulation game.
+For three years, users get income monthly, and they can allocate that money to an investment asset such as the S&P500 each month.
+Each asset has a different volatility, so the level of risk is different.
+As a fun feature, economic events such as Black Monday randomly happen each month, and each asset reacts differently to these events.
+I also added more long-term trends, such as inflation.
+At the end of the simulation, users can get an analysis of the investment depending on how they took risks.
+I will mainly use dictionaries, functions, loops, conditionals, and random event generation.
 
 ## If you plan to collaborate with one or two classmates, what are their names?
 I'll do it by myself.
