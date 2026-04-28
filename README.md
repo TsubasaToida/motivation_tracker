@@ -7,7 +7,7 @@ At first, I tried to write this project without using classes. I was thinking ab
 Overall, I think this game became a good learning experience for beginners in investment.
 
 
-This is the Final Project that I wrote.
+This is the Final Project that I wrote. "Make A Fortune"
 --------
 
 import random
