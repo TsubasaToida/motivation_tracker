@@ -1,3 +1,15 @@
+At first, I was going to make an investment simulator that analyzes players' investment styles. However, I couldn't make it because of the lack of time. (Also, I wanted to use Streamlit.) Instead, I built this simulator for investment education. Based on the real-life economic events and assets, the assets in this simulator are supposed to change. For example, when COVID-19 happened, almost all assets like the S&P500 went down except Gold and Treasury Bonds. By playing this game, players could learn the basics of investment and how each asset works. As for detailed numbers, I wanted to make this simulation fun, so I doubled the volatilities and numbers for all assets. 
+
+Those codes are mainly made from two classes and the main part.
+Asset class holds information about each asset, such as its name, description, current price, first price, last month’s price, and the functions that update the price and calculate monthly and total percentage changes. The Player class holds players' cash and holdings, how players sell and buy assets, how to calculate invested value, and how to calculate total portfolio value.
+At first, I tried to write this project without using classes. I was thinking about using dictionaries and separate variables to manage asset prices, player cash, and holdings. However, because I added more assets and more calculations later, the code became harder to organize, and it became really complicated. So I decided to use a class to organize it more. Using the class was difficult at first. Especially separating functions was really confusing. It took some time to understand what should belong to the asset class and what should belong to the player class. 
+
+Overall, I think this game became a good learning experience for beginners in investment.
+
+
+This is the Final Project that I wrote.
+--------
+
 import random
 
 
