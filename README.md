@@ -10,15 +10,11 @@ class Asset:
         self.price = price          
         self.first_price = price#the price before the game start
         self.last_price = price#the price in the last month
-        
     def renew_price(self, total_change):#this is the method that renew the prices of each assets
         self.last_price = self.price#save the price in the last month to calculate % of change
         self.price = max(1,round(self.price * (1 + total_change), 2))#present price * total change
-
-
     def monthly_change(self):
         return ((self.price - self.last_price) / self.last_price) * 100
-
     def total_change(self):
         return ((self.price - self.first_price) / self.first_price) * 100
 
@@ -31,8 +27,6 @@ class Player:
         self.start_cash = start_cash      
         self.holdings = {}#hold assets in dictionary ex) {"S&P500": 12.5, "Gold": 3.0}
         self.capital_contributed = start_cash  #total cash invested until now
-                                                  
-
     def buybuybuy(self, asset, amount):
         if amount <= 0:
             print("Number must be greater than 0.")
@@ -40,45 +34,35 @@ class Player:
         if amount > self.cash:
             print("Oops... you don't have enough cash.")
             return False
-        
         shares = amount / asset.price#invest $1000 on $100 assets = 100 shares
         self.cash -= amount
         self.holdings[asset.name] = self.holdings.get(asset.name, 0) + shares#first buy doesn't cause error
         print(f"Bought {shares:.2f} shares of {asset.name}.")
         return True
-
-
     def sellsellsell(self, asset, amount):
         if amount <= 0:
             print("Amount must be greater than 0.")
             return False
-
         owned_shares = self.holdings.get(asset.name, 0)
         total_value = owned_shares * asset.price#share * present price
-
         if owned_shares <= 0:
             print(f"Oops... you do not own any {asset.name}.")
             return False
         if amount > total_value:
             print(f"Oops... you only have {money(total_value)} worth of {asset.name}.")
             return False
-
         sell_share = amount / asset.price#sell $500 of $100 assets = sell 5 shares
         self.holdings[asset.name] -= sell_share#lower the number of shares
         self.cash += amount
-
         print(f"Sold {sell_share:.2f} shares of {asset.name}.")
         return True
-
     def invested_value(self, assets):#calculate total value of assets invested (cash is excluded)
         total = 0
         for name, shares in self.holdings.items():
             total += shares * assets[name].price
         return round(total, 2)
-
     def total_value(self, assets):#include cash and assets invested
         return round(self.cash + self.invested_value(assets), 2)
-
 
 
 #---------------------------------------
@@ -112,8 +96,6 @@ def main():
         "Financials":     Asset("Financials", "Assets that gather main bank companies such as Bank Of America", 100.0),
         "Energy":         Asset("Energy", "Assets that gather energy related campanies like ExxonMobil", 100.0),
     }
-
-
     #set the details for all monthly events
     events = [
         {
@@ -142,8 +124,6 @@ def main():
             "effects": {"S&P500": 0.035,"All Country": 0.03,"Semiconductor": 0.075,"Gold": 0.025,"Treasury Bonds": 0.02,"Real Estate": 0.05,"Financials": 0.045,"Energy": 0.055}
         }
     ]
-
-
     #default setting
     player = Player(start_cash=5000)
     salary  = 3000  
@@ -169,7 +149,6 @@ def main():
     print("        |           ______       |        ------------------------------")
     print("        |                        |")
     print("        |________________________|")
-
     #game starts!!
     for month in range(1, months + 1):
         print("")
@@ -182,18 +161,12 @@ def main():
         print("")
         print("")
         print(f"MONTH{month}")
-        
-
-
         #player get cash
         net_cashflow = salary - expense
         player.cash += net_cashflow
         player.capital_contributed += net_cashflow
         print(f"Salary: {money(salary)}  |  Expense: {money(expense)}  |  Net Income: {money(net_cashflow)}")
         print(f"Available cash: {money(player.cash)}")
-
-
-
         #monthly random events
         i = random.randint(1, 100)
         if i <= 20:
@@ -208,9 +181,6 @@ def main():
             event = events[4]#45%
         print(f"Next Monthly Event: {event['name']}")
         print(f"{event['description']}")
-
-
-
         #show assets (increased? or decreased?)
         print("")
         print("")
@@ -225,9 +195,6 @@ def main():
             f"{asset.detail}"
             )
             i += 1
-
-
-    
         #show portfolio
         print("")
         print("")
@@ -247,14 +214,8 @@ def main():
                     f"Total: {trend(asset.total_change()):>10}"
                 )
                 has_asset = True
-
         if not has_asset:
             print("No assets held yet.")
-
-
-
-
-
         #player's action
         while True:
             print("")
@@ -264,9 +225,7 @@ def main():
             print("2. Sell")
             print("3. View portfolio")
             print("4. End month")
-
             choice = input("Enter your choice: ").strip() #delet amy spaces
-
             if choice == "1":
                 print("")
                 print("--- Available Assets ---")
@@ -281,7 +240,6 @@ def main():
                     player.buybuybuy(assets[asset_name], amount)
                 except (ValueError, IndexError):
                     print("Sorry that's invalid. Try again.")
-
             elif choice == "2":
                 print("")
                 print("--- Available Assets ---")
@@ -296,7 +254,6 @@ def main():
                     player.sellsellsell(assets[asset_name], amount)
                 except (ValueError, IndexError):
                     print("Sorry that's invalid. Try again.")
-
             elif choice == "3":
                 print("")
                 print("--- Portfolio ---")
@@ -308,28 +265,20 @@ def main():
                         asset = assets[name]
                         print(f"  {name:<18} | Shares: {shares:>8.2f} | Value: {money(shares * asset.price):>10} | "
                               f"Month: {trend(asset.monthly_change()):>10} | Total: {trend(asset.total_change()):>10}")
-
             elif choice == "4":
                 break
-
             else:
                 print("Sorry that's invalid. Enter 1 to 4.")
-
-                
         #renew the price at the end of mouth
         for name in assets:
             asset = assets[name]
-
             if event["name"] == "Happy Month":
                  change = event["effects"][name] + random.uniform(-0.04, 0.01)
             else:
                 change = event["effects"][name]
-
             asset.renew_price(change)
-            
         happiness = player.total_value(assets) - player.capital_contributed
         happiness_per = (happiness / player.capital_contributed) * 100
-        
         print("")
         print("")
         print(f"--- End of Month {month} Summary ---")
@@ -338,13 +287,9 @@ def main():
         print(f"Total Value:     {money(player.total_value(assets))}")
         print(f"Total Gain/Loss: ${happiness:+,.2f}")
         print(f"Total Return:    {trend(happiness_per)}")
-
-
-
     #final results for 12 month sumulation
     income_come = player.total_value(assets) - player.capital_contributed
     return_finally = (total_income / player.capital_contributed) * 100
-
     print("           +                +")
     print("          /\\              /\\")
     print("         /  \\            /  \\")
@@ -367,7 +312,6 @@ def main():
     print(f"Final Portfolio Value: {money(player.total_value(assets))}")
     print(f"Total Gain/Loss: ${income_come:+,.2f}")
     print(f"Total Return:    {trend(return_finally)}")
-
     if player.total_value(assets) >= player.capital_contributed * 1.5: 
         print("Great Job! You grew your portfolio by more than 50%!")
     elif player.total_value(assets) >= player.capital_contributed:
